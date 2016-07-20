@@ -5,79 +5,94 @@
 	<script src="cookie.js"></script>
 	<link rel="stylesheet" type="text/css" href="style.css">
 </head>
-<body onload="displayCount()">
+<body>
 
-	<div class= "divs">
-		<form>
-			<label name="sugar">Select sugar cookie:</label>
-			<input type="button" value="submit" name="sugar" id="sugar"><br>
-			<br>
-			<label name="chocolate">Select chocolate cookie:</label>
-			<input type="button" value="submit" name="chocolate" id="chocolate"><br>
-			<br>
-			<label name="lemon">Select lemon cookie:</label>
-			<input type="button" value="submit" name="lemon" id="lemon">
-		</form>
-	</div>
 
-	<div class= "divs">
-		<span id="sugarcount"></span>
-		<br>
-		<br>
-		<span id="chocolatecount"></span>
-		<br>
-		<br>
-		<span id="lemoncount"></span>
-	</div>	
-
-	<p>You have grabbed <span id="total"></span> cookie(s)</p>
+	<table>
+	  <tr>
+	    <th>Sugar</th>
+	    <th>Chocolate</th>
+	    <th>Lemon</th>
+	  </tr>
+	  <tr>
+	    <td><img src="sugar.jpg" id="sugar"></td>
+	    <td><img src="choc.jpg" id="chocolate"></td>
+	    <td><img src="lemon.jpg" id="lemon"></td>
+	  </tr>
+	  <tr>
+	    <td id="sugarcount"></td>
+	    <td id="chocolatecount"></td>
+	    <td id="lemoncount"></td>
+	  </tr>
+	  <tr>
+	  	<td colspan="3" id ="total"></td>
+	  </tr>
+	  	  <tr>
+	  	<td colspan="3" id ="reset">Clear all your cookies</td>
+	  </tr>
+	</table>
 
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 	<script>
-
+// creating global variables
 		var LemonCount = Cookies.get("lemon")
 		var SugarCount = Cookies.get("sugar")
 		var ChocolateCount = Cookies.get("chocolate")
 
 
-	
+// setting deafult values 
 		if (Cookies.get("lemon") == null && Cookies.get("sugar") == null && Cookies.get("chocolate") == null){
 				Cookies.set("lemon",0)
 				Cookies.set("sugar",0)
 				Cookies.set("chocolate",0)
 			}
 
-
+// setting cookies
 		$(document).ready(function(){
 
 			$("#lemon").on("click",function(){
 				LemonCount = parseInt(Cookies.get("lemon"))+1
 				Cookies.set("lemon",LemonCount);
-				document.getElementById("lemoncount").innerHTML = LemonCount
+				document.getElementById("lemoncount").innerHTML = LemonCount +" cookie(s) lemon selected"
 			});
 
 			$("#sugar").on("click",function(){
 				SugarCount = parseInt(Cookies.get("sugar"))+1
 				Cookies.set("sugar",SugarCount);
-				document.getElementById("sugarcount").innerHTML = SugarCount
+				document.getElementById("sugarcount").innerHTML = SugarCount+" cookie(s) sugar selected"
 			});
 
 			$("#chocolate").on("click",function(){
 				ChocolateCount = parseInt(Cookies.get("chocolate"))+1
 				Cookies.set("chocolate",ChocolateCount);
-				document.getElementById("chocolatecount").innerHTML = ChocolateCount
+				document.getElementById("chocolatecount").innerHTML = ChocolateCount+" cookie(s) chocolate selected"
 			});
 
 
 		})
+// display cookies
+		
 
 		function displayCount(){
-			document.getElementById("lemoncount").innerHTML = LemonCount
-			document.getElementById("sugarcount").innerHTML = SugarCount
-			document.getElementById("chocolatecount").innerHTML = ChocolateCount
+			var sum = parseInt(ChocolateCount) + parseInt(SugarCount) + parseInt(LemonCount) 
+			document.getElementById("lemoncount").innerHTML = LemonCount+" cookie(s) lemon selected"
+			document.getElementById("sugarcount").innerHTML = SugarCount+" cookie(s) sugar selected"
+			document.getElementById("chocolatecount").innerHTML = ChocolateCount+" cookie(s) chocolate selected"
+			document.getElementById("total").innerHTML = "You have a total of " + sum + " cookie(s)"
 		}
 
-		
+		setInterval(displayCount,1)
+// reset value of cookies
+			   $("#reset").on("click",function(){
+				  	LemonCount = 0; 	
+			    	SugarCount = 0;
+			    	ChocolateCount = 0;
+			    	
+			    	Cookies.set("lemon", 0);
+			    	Cookies.set("sugar", 0);
+			    	Cookies.set("chocolate", 0);
+			    })
+
 	</script>
 
 </body>
